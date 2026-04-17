@@ -40,6 +40,7 @@ jobs:
             python3 -m pytest tests/ -v --cov=app --cov-report=xml
       - store_artifacts:
           path: coverage.xml
+      - sonarcloud/scan
   lint:
     executor: python
     steps:
