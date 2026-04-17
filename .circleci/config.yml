@@ -96,12 +96,12 @@ workflows:
           requires:
             - setup
       - docker-build:
-        requires:
-          - test
-          - lint
-          - snyk
-        context:
-          - GHCR
-        filters:
-          branches:
-            only: main
+          requires:
+            - test
+            - lint
+            - snyk
+          context:
+            - GHCR
+          filters:
+            branches:
+              only: main
