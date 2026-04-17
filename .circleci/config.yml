@@ -43,11 +43,7 @@ jobs:
             python3 -m pytest tests/ -v --cov=app --cov-report=xml
       - store_artifacts:
           path: coverage.xml
-      - run:
-          name: Debug Sonar properties
-          command: |
-            cat sonar-project.properties
-            [ -n "$SONAR_TOKEN" ] && echo "Token: SET (length ${#SONAR_TOKEN})" || echo "Token: NOT SET"
+      - sonarcloud/scan
 
   lint:
     executor: python
@@ -67,6 +63,8 @@ workflows:
       - test:
           requires:
             - setup
+          context:
+            SonarCloud
       - lint:
           requires:
             - setup
