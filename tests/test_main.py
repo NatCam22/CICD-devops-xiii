@@ -98,3 +98,4 @@ def test_roll_dice_invalid():
 
     response = client.get("/game/dice/11")
     assert "error" in response.json()
+    

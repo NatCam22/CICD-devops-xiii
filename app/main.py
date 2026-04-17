@@ -7,9 +7,11 @@ app = FastAPI(title="FastAPI CI/CD Jueguitos", version="1.0.0")
 def read_root():
     return {"message": "Mensaje de inicio, CI/CD!"}
 
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
 
 @app.get("/game/ppt/{eleccion}")
 def piedra_papel_tijeras(eleccion: str):
@@ -30,7 +32,12 @@ def piedra_papel_tijeras(eleccion: str):
     else:
         resultado = "pierdes"
 
-    return {"tu_eleccion": eleccion, "computador": computer, "resultado": resultado}
+    return {
+        "tu_eleccion": eleccion, 
+        "computador": computer, 
+        "resultado": resultado
+        }
+
 
 games = {}
 @app.get("/game/number/start")
@@ -64,4 +71,3 @@ def girar_dados(num_dice: int):
 
     rolls = [random.randint(1, 6) for _ in range(num_dice)]
     return {"rolls": rolls, "total": sum(rolls)}
-
