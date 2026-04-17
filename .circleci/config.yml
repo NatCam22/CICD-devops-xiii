@@ -14,8 +14,20 @@ jobs:
           command: python3 -m pytest tests/ -v --cov=app --cov-report=xml
       - store_artifacts:
           path: coverage.xml
+  lint:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: pip install -r requirements.txt
+      - run:
+          name: Run linting
+          command: flake8 app/ tests/
 
 workflows:
   pipeline:
     jobs:
       - test
+      - lint
