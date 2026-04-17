@@ -70,8 +70,6 @@ workflows:
     jobs:
       - setup
       - sec:
-          requires:
-            - setup
           context:
             Snyk
       - test:
