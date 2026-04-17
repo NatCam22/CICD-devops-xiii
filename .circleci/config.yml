@@ -44,16 +44,12 @@ jobs:
       - store_artifacts:
           path: coverage.xml
       - run:
-          name: Debug SonarCloud
+          name: Debug Sonar properties
           command: |
-            . venv/bin/activate
-            pip install pysonar-scanner
-            pysonar-scanner -X \
-              -Dsonar.projectKey=NatCam22_CICD-devops-xiii \
-              -Dsonar.organization=natcam22 \
-              -Dsonar.sources=app \
-              -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.token=$SONAR_TOKEN
+            echo "Project key: $(grep sonar.projectKey sonar-project.properties)"
+            echo "Organization: $(grep sonar.organization sonar-project.properties)"
+            echo "Token exists: $(if [ -n '$SONAR_TOKEN' ]; then echo YES; else echo NO; fi)"
+            cat sonar-project.properties
 
   lint:
     executor: python
