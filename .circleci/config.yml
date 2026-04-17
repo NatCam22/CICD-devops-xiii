@@ -5,6 +5,9 @@ executors:
     docker:
       - image: cimg/python:3.11
 
+orbs:
+  sonarcloud: sonarsource/sonarcloud@2.0.0
+
 jobs:
   setup:
     executor: python
