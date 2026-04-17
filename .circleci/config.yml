@@ -20,7 +20,8 @@ jobs:
   test:
     executor: python
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Run tests with coverage
           command: python3 -m pytest tests/ -v --cov=app --cov-report=xml
@@ -29,7 +30,8 @@ jobs:
   lint:
     executor: python
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Run linting
           command: flake8 app/ tests/
@@ -38,5 +40,9 @@ workflows:
   pipeline:
     jobs:
       - setup
-      - test
-      - lint
+      - test:
+          requires:
+            - setup
+      - lint:
+          requires:
+            - setup
