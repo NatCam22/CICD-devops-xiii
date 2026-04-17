@@ -34,9 +34,9 @@ def piedra_papel_tijeras(eleccion: str):
     else:
         resultado = "pierdes"
 
-    return {"tu_eleccion": eleccion, 
-        "computador": computer, 
-        "resultado": resultado}
+    return {"tu_eleccion": eleccion,
+            "computador": computer,
+            "resultado": resultado}
 
 
 @app.get("/game/number/start")
