@@ -43,7 +43,18 @@ jobs:
             python3 -m pytest tests/ -v --cov=app --cov-report=xml
       - store_artifacts:
           path: coverage.xml
-      - sonarcloud/scan
+      - run:
+          name: Debug SonarCloud
+          command: |
+            . venv/bin/activate
+            pip install pysonar-scanner
+            pysonar-scanner -X \
+              -Dsonar.projectKey=NatCam22_CICD-devops-xiii \
+              -Dsonar.organization=natcam22 \
+              -Dsonar.sources=app \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.token=$SONAR_TOKEN
+
   lint:
     executor: python
     steps:
