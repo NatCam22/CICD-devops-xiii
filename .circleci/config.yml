@@ -7,7 +7,7 @@ executors:
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@2.0.0
-  snyk: snyk/snyk@2.1.0
+  snyk: snyk/snyk@1.4.0
 
 jobs:
   setup:
