@@ -64,6 +64,21 @@ jobs:
           name: install dependencies
           command: pip install -r requirements.txt
       - snyk/scan
+  docker-build:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: default
+      - run:
+          name: Build and push Docker image
+          command: |
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+            docker build -t ghcr.io/$GHCR_USER/fastapi-cicd:$CIRCLE_SHA1 .
+            docker push ghcr.io/$GHCR_USER/fastapi-cicd:$CIRCLE_SHA1
+            docker tag ghcr.io/$GHCR_USER/fastapi-cicd:$CIRCLE_SHA1 ghcr.io/$GHCR_USER/fastapi-cicd:latest
+            docker push ghcr.io/$GHCR_USER/fastapi-cicd:latest
 
 workflows:
   pipeline:
@@ -80,3 +95,13 @@ workflows:
       - lint:
           requires:
             - setup
+      - docker-build:
+        requires:
+          - test
+          - lint
+          - snyk
+        context:
+          - GHCR
+        filters:
+          branches:
+            only: main
