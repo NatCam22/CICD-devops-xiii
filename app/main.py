@@ -2,6 +2,8 @@ from fastapi import FastAPI
 import random
 
 app = FastAPI(title="FastAPI CI/CD Jueguitos", version="1.0.0")
+games = {}
+
 
 @app.get("/")
 def read_root():
@@ -32,14 +34,11 @@ def piedra_papel_tijeras(eleccion: str):
     else:
         resultado = "pierdes"
 
-    return {
-        "tu_eleccion": eleccion, 
+    return {"tu_eleccion": eleccion, 
         "computador": computer, 
-        "resultado": resultado
-        }
+        "resultado": resultado}
 
 
-games = {}
 @app.get("/game/number/start")
 def elegir_numero():
     game_id = str(random.randint(1000, 9999))
