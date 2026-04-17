@@ -99,7 +99,7 @@ workflows:
           requires:
             - test
             - lint
-            - snyk
+            - sec
           context:
             - GHCR
           filters:
