@@ -1,0 +1,82 @@
+version: 2.1
+
+executors:
+  python:
+    docker:
+      - image: cimg/python:3.11
+
+orbs:
+  sonarcloud: sonarsource/sonarcloud@2.0.0
+  snyk: snyk/snyk@2.3.0
+
+jobs:
+  setup:
+    executor: python
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            - v1-dependencies-
+      - run:
+          name: Create virtualenv and install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  test:
+    executor: python
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run tests with coverage
+          command: |
+            . venv/bin/activate
+            python3 -m pytest tests/ -v --cov=app --cov-report=xml
+      - store_artifacts:
+          path: coverage.xml
+      - sonarcloud/scan
+
+  lint:
+    executor: python
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run linting
+          command: |
+            . venv/bin/activate
+            flake8 app/ tests/
+  sec:
+    executor: python
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: pip install -r requirements.txt
+      - snyk/scan
+
+workflows:
+  pipeline:
+    jobs:
+      - setup
+      - sec:
+          context:
+            Snyk
+      - test:
+          requires:
+            - setup
+          context:
+            SonarCloud
+      - lint:
+          requires:
+            - setup
