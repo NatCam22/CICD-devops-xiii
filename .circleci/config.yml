@@ -46,10 +46,8 @@ jobs:
       - run:
           name: Debug Sonar properties
           command: |
-            echo "Project key: $(grep sonar.projectKey sonar-project.properties)"
-            echo "Organization: $(grep sonar.organization sonar-project.properties)"
-            echo "Token exists: $(if [ -n '$SONAR_TOKEN' ]; then echo YES; else echo NO; fi)"
             cat sonar-project.properties
+            [ -n "$SONAR_TOKEN" ] && echo "Token: SET (length ${#SONAR_TOKEN})" || echo "Token: NOT SET"
 
   lint:
     executor: python
