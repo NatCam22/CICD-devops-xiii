@@ -59,7 +59,11 @@ jobs:
   sec:
     executor: python
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Activate virtualenv
+          command: . venv/bin/activate
       - snyk/scan:
           fail-on-issues: false
 
@@ -68,6 +72,8 @@ workflows:
     jobs:
       - setup
       - sec:
+          requires:
+            - setup
           context:
             Snyk
       - test:
