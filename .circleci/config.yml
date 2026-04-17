@@ -7,6 +7,7 @@ executors:
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@2.0.0
+  snyk: snyk/snyk@2.1.0
 
 jobs:
   setup:
@@ -55,11 +56,20 @@ jobs:
           command: |
             . venv/bin/activate
             flake8 app/ tests/
+  sec:
+    executor: python
+    steps:
+      - checkout
+      - snyk/scan:
+          fail-on-issues: false
 
 workflows:
   pipeline:
     jobs:
       - setup
+      - sec:
+        context:
+          Snyk
       - test:
           requires:
             - setup
