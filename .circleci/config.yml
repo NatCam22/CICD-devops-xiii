@@ -1,27 +1,35 @@
 version: 2.1
 
-jobs:
-  test:
+executors:
+  python:
     docker:
       - image: cimg/python:3.11
+
+jobs:
+  setup:
+    executor: python
     steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: pip install -r requirements.txt
+        name: Install dependencies
+        command: pip install -r requirements.txt
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  test:
+    executor: python
+    steps:
+      - checkout
       - run:
           name: Run tests with coverage
           command: python3 -m pytest tests/ -v --cov=app --cov-report=xml
       - store_artifacts:
           path: coverage.xml
   lint:
-    docker:
-      - image: cimg/python:3.11
+    executor: python
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: pip install -r requirements.txt
       - run:
           name: Run linting
           command: flake8 app/ tests/
