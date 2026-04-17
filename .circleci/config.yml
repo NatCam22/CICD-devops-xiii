@@ -7,7 +7,7 @@ executors:
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@2.0.0
-  snyk: snyk/snyk@1.4.0
+  snyk: snyk/snyk@2.3.0
 
 jobs:
   setup:
@@ -59,13 +59,11 @@ jobs:
   sec:
     executor: python
     steps:
-      - attach_workspace:
-          at: .
+      - checkout
       - run:
-          name: Activate virtualenv
-          command: . venv/bin/activate
-      - snyk/scan:
-          fail-on-issues: false
+          name: install dependencies
+          command: pip install -r requirements.txt
+      - snyk/scan
 
 workflows:
   pipeline:
