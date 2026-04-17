@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/NatCam22/fastapi-cicd
+    repoURL: https://github.com/NatCam22/CICD-devops-xiii
     targetRevision: main
     path: k8s
   destination:
