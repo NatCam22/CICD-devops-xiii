@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-cicd
+  labels:
+    app: fastapi-cicd
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fastapi-cicd
+  template:
+    metadata:
+      labels:
+        app: fastapi-cicd
+    spec:
+      containers:
+        - name: fastapi-cicd
+          image: ghcr.io/natcam22/fastapi-cicd:latest
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
