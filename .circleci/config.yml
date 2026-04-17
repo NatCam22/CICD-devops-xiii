@@ -11,8 +11,8 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Install dependencies
-        command: pip install -r requirements.txt
+          name: Install dependencies
+          command: pip install -r requirements.txt
       - persist_to_workspace:
           root: .
           paths:
