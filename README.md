@@ -2,7 +2,7 @@
 
 Pipeline completo de CI/CD para una aplicación FastAPI, "desplegada" en Kubernetes con ArgoCD.
 
-## 📎 Enlaces
+## Enlaces
 
 | Recurso | Enlace |
 |---|---|
@@ -11,7 +11,7 @@ Pipeline completo de CI/CD para una aplicación FastAPI, "desplegada" en Kuberne
 
 ---
 
-## 📋 Descripción
+## Descripción
 
 Aplicación web construida con **FastAPI** que expone tres juegos a través de una API REST:
 
@@ -66,7 +66,7 @@ fastapi-cicd/
 
 ---
 
-## 🚀 Pipeline de CI/CD
+## Pipeline de CI/CD
 
 El pipeline está definido en `.circleci/config.yml` y se compone de los siguientes jobs:
 
