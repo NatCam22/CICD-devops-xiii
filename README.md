@@ -193,3 +193,9 @@ La app queda disponible en `http://localhost:8000/docs`
 
 ---
 
+## Screenshots
+
+![app](running_app.png)
+![circleci](working_pipeline.png)
+![sonar](sonarqube_dashboard.png)
+![snyk](snyk_project.png)
